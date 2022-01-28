@@ -13,3 +13,9 @@ More easy than you thought.
 </p>
 
 Skips 50% input neurons and makes the predictor much more powerfull.
+
+## Fully Trained
+
+<p align="center">
+  <img src="https://github.com/grensen/easy_regression/blob/main/figures/tested_regressions.png?raw=true">
+</p>
