@@ -1,3 +1,10 @@
+
+## Easy Regression - How To
+
+<p align="center">
+  <img src="https://github.com/grensen/easy_regression/blob/main/figures/easy_regression.png?raw=true">
+</p>
+
 ## Easy Regression
 
 <p align="center">
