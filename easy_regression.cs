@@ -26,7 +26,7 @@ static void RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop = 0
     float[] weights = new float[784 * 10];
     for (int ep = 0, correct; ep < epochs; ep++, lr *= lr2)
     {
-        // efficent learning rate
+        // efficient learning rate
         for (int i = 0; i < 7840; i++) weights[i] *= lr1;
 
         // get training accuracy
@@ -93,13 +93,6 @@ struct Sample
 }
 struct AutoData
 {
-    struct Sample1
-    {
-        public float[] sample;
-        public int label;
-        public bool andTrain;
-    }
-
     public byte[] samplesTest, labelsTest;
     public byte[] samplesTraining, labelsTraining;
     public AutoData(string yourPath)
