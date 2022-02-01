@@ -32,3 +32,9 @@ Skips 50% input neurons and makes the predictor much more powerfull.
 <p align="center">
   <img src="https://github.com/grensen/easy_regression/blob/main/figures/tested_regressions.png?raw=true">
 </p>
+
+## The Demo
+
+<p align="center">
+  <img src="https://github.com/grensen/easy_regression/blob/main/figures/demo.png?raw=true">
+</p>
