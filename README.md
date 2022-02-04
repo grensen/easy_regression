@@ -1,7 +1,7 @@
 # Easy Regression 
 
 <p align="center">
-  <img src="https://github.com/grensen/easy_regression/blob/main/figures/ez_r.png?raw=true">
+  <img src="https://github.com/grensen/easy_regression/blob/main/figures/ez.png?raw=true">
 </p>
 
 Neural networks are often considered to be difficult to understand. This work aims in the long run to change that. Easy regression is an efficient iterative supervised learning technique for classification problems and it is closely related to multiclass logistic regression, the entry to neural networks.
