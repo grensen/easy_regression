@@ -60,7 +60,7 @@ Infinity regression is a very simple modification to make easy regression even b
 
 After a few epochs with the entire training data set, a completely different picture emerges. Spectacular, isn't it? The example above was trained with easy regression. The lower example was trained with infinity regression. The noise in the image is clearly visible in the first example. This is the image that I have already seen in so many examples after training.
 
-The bottom picture of the weights trained with the infinity technique was new to me. It is far less noisy. The picture has been divided more into areas, where the dark and dirty areas give an idea that the corresponding class tends towards 0 here. Which means that the class avoids any prediction in this areas. 
+The bottom picture of the weights trained with the infinity technique was new to me. It is far less noisy. The picture has been divided more into areas, where the dark and dirty areas give an idea that the corresponding class tends towards 0 here. Which means that the class try to avoid a prediction in this areas. 
 
 ## The Demo
 
@@ -94,7 +94,6 @@ print("Epochs = " + epochs.ToString() + "\nDrop = " + (drop * 100).ToString("F2"
 AutoData d = new(@"C:\mnist\");
 
 print("Run easy regression");
-
 RunDemo(d, lr1, lr2, epochs);
 
 print("\nRun infinity regression");
