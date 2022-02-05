@@ -38,7 +38,7 @@ The weights start at 0, but here they are already well trained. The output is si
   <img src="https://github.com/grensen/easy_regression/blob/main/figures/easy_regression_ji.png?raw=true">
 </p>
 
-Here you can see how the training works. In the first sample, a 0 is predicted, but the input was a 5. So the signals are added negatively to the weights for class 0. And the signals for the desired class 5 are added positively to the weights of the class.
+Here you can see how the training works. In the first sample, a 0 is predicted, but the input sample was a 5. So the signals are added negatively to the weights for class 0. And the signals for the desired class 5 are added positively to the weights of the class.
 
 The second sample is a 0, so the signals for both classes are simply reversed now with the new input signal. But this already gives a very weak picture of how the learning will continue. After 20 samples, all classes are already filled, the incoming 9 is recognized as an 8, and is distributed according to the signal.
 
@@ -68,13 +68,15 @@ The bottom picture of the weights trained with the infinity technique was new to
   <img src="https://github.com/grensen/easy_regression/blob/main/figures/demo.png?raw=true">
 </p>
 
-The demo first loads the hyperparameters of the model and then checks if the MNIST dataset is available. If not, the dataset is downloaded from my GitHub account and placed in the appropriate folder from where the data can be reloaeded. After that, the demo already starts with easy regression. For this purpose, the entire training data set is trained with 60,0000 samples. In addition, after each epoch, a test is performed with 10,000 to determine the accuracy for the test data that was not learned. 
+The demo first loads the hyperparameters and then checks if the MNIST dataset is available. If not, the dataset is downloaded from my GitHub account and placed in the appropriate folder from where the data can be reloaeded. After that, the demo already starts with easy regression. For this purpose, the entire training data set is trained with 60,0000 samples. In addition, after each epoch, a test is performed with 10,000 to determine the accuracy for the test data that was not learned. 
 
-After that, inifinity regression begins, where only the inputs are randomly switched off before the system gets them.
+Then inifinity regression begins, where only the inputs are randomly switched off before the system gets them.
 
 Finally, the trained model is saved and reloaded from the file to test it again. This is to make sure that everything works right, which seems to be the case.
 
 ## High Level Code
+
+To run the code you need [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) with .Net 5 or higher. After that you can start a console application, switch from Debug to Release mode, copy the code and then run the demo.
 
 ~~~cs
 using System; using System.Linq; using System.IO;
@@ -114,28 +116,6 @@ The code in the highlevel is fairly intuitive. The most important thing is the s
 ## Functions
 
 ~~~cs
-static float[] RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop = 0)
-{
-    float lr = 1; // multiplier
-    float[] weights = new float[784 * 10];
-
-    for (int ep = 0; ep < epochs; ep++, lr *= lr2)
-    {
-        // more efficient learning rate - reduced impact each epoch
-        for (int i = 0; i < 7840; i++) weights[i] += weights[i] * lr1;
-
-        // get training accuracy
-        int cTrain = Test(d, 60000, true, weights, lr, drop, new Random(123 + ep));
-       
-        // get test accuracy
-        int cTest = Test(d, 10000, false, weights, lr);
-
-        System.Console.WriteLine((ep + 1) + " Training = " + (cTrain * 100.0 / 60000).ToString("F2") 
-            + "%, Test = " + (cTest * 100.0 / 10000).ToString("F2") + "%");
-    }
-    return weights;
-}
-
 static int Test(AutoData d, int len, bool training, float[] weights, float lr, float drop = 0, Random r = null)
 {
     int correct = 0;
@@ -182,6 +162,35 @@ static int Test(AutoData d, int len, bool training, float[] weights, float lr, f
     }
 }
 ~~~
+
+The Test() runs the test or training for an epoch and then outputs the number of correctly predicted examples. Which is then used to calculate the accuracy. For that, the input sample is first loaded and prepared for the network. After that the forward pass begins which works exactly like the logistic regression, only that there usually also a bias weight for each output class is used and the outputs are activated with softmax. Easy regression left this out. The ArgMax() simply selects the highest value of the output class signals. Or in other words, this function determines at the end which class was predicted. The following optimization step updates the weights and is only enabled at training. In the test must this code part be omitted!
+
+~~~cs
+static float[] RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop = 0)
+{
+    float lr = 1; // multiplier
+    float[] weights = new float[784 * 10];
+
+    for (int ep = 0; ep < epochs; ep++, lr *= lr2)
+    {
+        // more efficient learning rate - reduced impact each epoch
+        for (int i = 0; i < 7840; i++) weights[i] += weights[i] * lr1;
+
+        // get training accuracy
+        int cTrain = Test(d, 60000, true, weights, lr, drop, new Random(123 + ep));
+       
+        // get test accuracy
+        int cTest = Test(d, 10000, false, weights, lr);
+
+        System.Console.WriteLine((ep + 1) + " Training = " + (cTrain * 100.0 / 60000).ToString("F2") 
+            + "%, Test = " + (cTest * 100.0 / 10000).ToString("F2") + "%");
+    }
+    return weights;
+}
+~~~
+
+The float[] RunDemo() executes for the length of epochs for training and the subsequent test. The trained weights can then be returned as seen in the demo to save them.
+The learning rate is nothing more than a scaling of the weights that have less and less influence on the outcome of the training. Very dumb.
 
 ## AutoData
 
