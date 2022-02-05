@@ -62,6 +62,8 @@ After a few epochs with the entire training data set, a completely different pic
 
 The bottom picture of the weights trained with the infinity technique was new to me. It is far less noisy. The picture has been divided more into areas, where the dark and dirty areas give an idea that the corresponding class tends towards 0 here. Which means that the class try to avoid a prediction in this areas. 
 
+I'm not quite sure yet, but it almost seems as if the predictions of a binary state, either yes or no or a noise of both, are now moving to three states, yes, no and nothing.
+
 ## The Demo
 
 <p align="center">
@@ -111,7 +113,7 @@ print("Test accuracy = " + (correctTest * 100.0 / 10000).ToString("F2") + "%");
 print("\nEnd demo");
 ~~~
 
-The code in the highlevel is fairly intuitive. The most important thing is the specified path from `AutoData d`, where the dataset and networks are stored. I wanted to make this area readable and simple. But under other circumstances, other code designs would be preferable.
+The code at a highlevel is fairly intuitive. The most important thing is the specified path from `AutoData d`, where the dataset and networks are stored. I wanted to make this area readable and simple. But under other circumstances, other code designs would be preferable. The further demo progress is similar to the description above.
 
 ## Functions
 
@@ -284,9 +286,7 @@ struct AutoData
 }
 ~~~
 
-The AutoData struct takes care of the data and handles the whole input/output business. From data to network storage and deployment. Pretty cool and definitely a highlight which makes it very easy for the user to use the demo. Just copy the code and start without much fiddling around. This could be a standard feature for such demos if it goes according to me.
-
-Often enough I could not try demos due to my lack of knowledge.
+The AutoData struct takes care of the data and handles the whole input/output business. From data to network storage and deployment. Pretty cool and definitely a highlight which makes it very easy for the user to use the demo. Just copy the code and start without much fiddling around. This could be a standard feature for such demos. I have often failed at many demos due to a lack of some expert knowledge. Often because I had problems to getting datasets, providing them and then using them. It is always a pity when it fails to use a demo.
 
 ## Some Experiments
 
@@ -306,3 +306,5 @@ This happens:
 This not only shows very nicely that you can scale the weights both larger and smaller, but also how the effort with lr1 is significantly less than with lr2. And also that the learning rate here works completely differently from what we know from neural networks. 
 
 At the beginning I talked about a fake softmax, because depending on the scaling of the weights, the softmax pseudoprobability is influenced by the learning rate. And thus stronger or weaker. However, the result itself remains the same with any scaling. No matter how big or small you have trained the weights, as long as the smallest and biggest weights are not swallowed by the scaling.
+
+
