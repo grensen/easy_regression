@@ -12,13 +12,13 @@ Neural networks are often considered to be difficult to understand. This work ai
   <img src="https://github.com/grensen/easy_regression/blob/main/figures/easy_regression.png?raw=true">
 </p>
 
-Imagine a system to predict a binary output. In the figure, the possible output classes would be either 0 or 1. But it could also be A and B, or a and b, or even cats and dogs. Each frame holds the incoming signals, in this example the frame works with pixels, but it could also be the weight and hair color of a person or other input values. In this case we will work with 28 * 28 = 784 pixels.
+Imagine a system to predict a binary output. In the figure, the possible output classes would be either `0` or `1`. But it could also be `A` and `B`, or `a` and `b`, or even `cats` and `dogs`. Each frame holds the incoming signals, in this example the frame works with 28 * 28 = 784 pixels, but it could also be the weight and hair color of a person or other input values. 
 
-The system is new and doesn't know anything yet, not even noise. Nevertheless, it makes a prediction and takes the highest value at class 0, since no higher value can follow with nothing. The prediction starts at class 0, but the input was a 1 represented as an image. So the prediction should be wrong. This is then followed by the learn and update step.
+The system is new and doesn't know anything yet, not even noise. Nevertheless, it makes a prediction and takes the highest value at class 0, since no higher value can follow with nothing. The prediction starts at class with `0`, but the input was a `1` represented as an image. So the prediction was wrong. This is then followed by the learn and update step.
 
-To do this, the incoming signals from the image for the predicted class that predicted incorrectly are simply calculated negatively on the connected weights, as you can see in blue. So if the signal comes into the system again, it would be weighted more negatively for class 0. The target class 1 adds the signals positive, so that this class evaluates the incoming signal more in a positive way next time.
+To do this, the wrong predicted class takes the incoming signals from the image and simply substract this from the connected weights, as you can see in blue. So if the signal comes into the system again, it would be weighted more negative for class 0. The target class 1 adds the signals, so that this class evaluates the incoming signal more in a positive way next time.
 
-This is actually the whole magic of how the system "learns" or "perceives". The purple zero has nothing to do with the classes. It represents the balancing of the signals.
+This is actually the whole magic of how the system "learns" or "perceives". The purple zero has nothing to do with the classes, it represents the balancing.
 
 ## The Model
 
@@ -28,7 +28,7 @@ This is actually the whole magic of how the system "learns" or "perceives". The 
 
 Perhaps the entire system can be understood a little bit better in this way, because in our case 10 classes from 0 to 9 are used, which are controlled by an image with 784 pixels. But it could also be several hundred classes.
 
-But all this is not so important. The important thing is to react when something goes wrong in a system. Only then easy regression comes into play. And only 2 classes learn instead of 10, the class that was predicted wrong, with negative signals, and the target class that takes the equal signal positive. 
+More important to understand is now to react when something goes wrong in a system. Only then easy regression comes into play. And only 2 classes learn instead of 10, the class that predicted wrong, with negative signals, and the target class that takes the same signals positive. 
 
 The weights start at 0, but here they are already well trained. The output is similar to a pseudo softmax function. However, this is only a fake as we will see later.  
 
@@ -38,11 +38,11 @@ The weights start at 0, but here they are already well trained. The output is si
   <img src="https://github.com/grensen/easy_regression/blob/main/figures/easy_regression_ji.png?raw=true">
 </p>
 
-Here you can see how the training works. In the first sample, a 0 is predicted, but the input sample was a 5. So the signals are added negatively to the weights for class 0. And the signals for the desired class 5 are added positively to the weights of the class.
+Here you can see how the training works. In the first sample, a `0` is predicted, but the input sample was a `5`. So the signals are added negatively to the weights on class `0`. And the signals for the desired class `5` are added positively to the weights of the class.
 
-The second sample is a 0, so the signals for both classes are simply reversed now with the new input signal. But this already gives a very weak picture of how the learning will continue. After 20 samples, all classes are already filled, the incoming 9 is recognized as an 8, and is distributed according to the signal.
+The second sample is a `0`, so the signals for both classes are simply reversed now with the new input signal. But this already gives a very weak picture of how the learning will continue. After 20 samples, all classes are already filled, the incoming `9` is recognized as an `8`, and is distributed according to the signal.
 
-After 100 samples, the picture is formed further and with a clear increase of accuracy. The 1 as a sample is recognized correctly, that means no training. After the entire dataset was trained with 60,000 samples, the network achieved a training accuracy of 85%. And typical here is the image of the weights which look like this or something similar, eben when you will use logistic regression.
+After 100 samples, the picture is formed further and with a clear increase of accuracy. The `1` as a sample is recognized correctly, that means no training. After the entire dataset was trained with 60,000 samples, the network achieved a training accuracy of 85%. And typical here is the picture of the weights which look like this or something similar, even when you will use logistic regression.
 
 ## Infinity Regression
 
@@ -62,7 +62,7 @@ After a few epochs with the entire training data set, a completely different pic
 
 The bottom picture of the weights trained with the infinity technique was new to me. It is far less noisy. The picture has been divided more into areas, where the dark and dirty areas give an idea that the corresponding class tends towards 0 here. Which means that the class try to avoid a prediction in this areas. 
 
-I'm not quite sure yet, but it almost seems as if the predictions of a binary state, either yes or no or a noise of both, are now moving to three states, yes, no and nothing.
+I'm not quite sure yet, but it almost seems as if the predictions of a binary state, either yes or no or a noise of both, are now tends to move into three states, yes, no and nothing.
 
 ## The Demo
 
@@ -76,10 +76,11 @@ Then inifinity regression begins, where only the inputs are randomly switched o
 
 Finally, the trained model is saved and reloaded from the file to test it again. This is to make sure that everything works right, which seems to be the case.
 
-## High Level Code
+## The Code
 
-To run the code you need [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) with .Net 5 or higher. After that you can start a console application, switch from Debug to Release mode, copy the code and then run the demo.
+To run the code you need [Visual Studio](https://visualstudio.microsoft.com/de/downloads/) with .Net 5 or higher. After that you can start a console application, switch from Debug to Release mode, copy the [code](https://github.com/grensen/easy_regression/blob/main/easy_regression.cs) and then run the demo.
 
+## High Level 
 ~~~cs
 using System; using System.Linq; using System.IO;
 System.Action<string> print = System.Console.WriteLine;
@@ -118,7 +119,8 @@ The code at a highlevel is fairly intuitive. The most important thing is the spe
 ## Functions
 
 ~~~cs
-static int Test(AutoData d, int len, bool training, float[] weights, float lr, float drop = 0, Random r = null)
+static int Test(AutoData d, int len, bool training, float[] weights, 
+float lr, float drop = 0, Random r = null)
 {
     int correct = 0;
     for (int x = 0; x < len; x++)
@@ -128,7 +130,8 @@ static int Test(AutoData d, int len, bool training, float[] weights, float lr, f
 
         // input dropout
         if (drop != 0) for (int i = 0; i < 784; i++)
-            if (s.sample[i] != 0 && r.NextDouble() > 1 - drop) s.sample[i] = 0;
+            if (s.sample[i] != 0 && r.NextDouble() > 1 - drop) 
+                s.sample[i] = 0;
 
         // feed forward
         float[] outputs = new float[10];
@@ -168,7 +171,8 @@ static int Test(AutoData d, int len, bool training, float[] weights, float lr, f
 The Test() runs the test or training for an epoch and then outputs the number of correctly predicted examples. Which is then used to calculate the accuracy. For that, the input sample is first loaded and prepared for the network. After that the forward pass begins which works exactly like the logistic regression, only that there usually also a bias weight for each output class is used and the outputs are activated with softmax. Easy regression left this out. The ArgMax() simply selects the highest value of the output class signals. Or in other words, this function determines at the end which class was predicted. The following optimization step updates the weights and is only enabled at training. In the test must this code part be omitted!
 
 ~~~cs
-static float[] RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop = 0)
+static float[] RunDemo(AutoData d, float lr1, float lr2, 
+int epochs, float drop = 0)
 {
     float lr = 1; // multiplier
     float[] weights = new float[784 * 10];
@@ -184,7 +188,8 @@ static float[] RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop 
         // get test accuracy
         int cTest = Test(d, 10000, false, weights, lr);
 
-        System.Console.WriteLine((ep + 1) + " Training = " + (cTrain * 100.0 / 60000).ToString("F2") 
+        System.Console.WriteLine((ep + 1) + " Training = " 
+        + (cTrain * 100.0 / 60000).ToString("F2") 
             + "%, Test = " + (cTest * 100.0 / 10000).ToString("F2") + "%");
     }
     return weights;
@@ -192,7 +197,7 @@ static float[] RunDemo(AutoData d, float lr1, float lr2, int epochs, float drop 
 ~~~
 
 The float[] RunDemo() executes for the length of epochs for training and the subsequent test. The trained weights can then be returned as seen in the demo to save them.
-The learning rate is nothing more than a scaling of the weights that have less and less influence on the outcome of the training. Very dumb.
+The learning rate is nothing more than a scaling of the weights that have less and less influence on the outcome of the training every epoch. Very dumb.
 
 ## AutoData
 
@@ -306,5 +311,4 @@ This happens:
 This not only shows very nicely that you can scale the weights both larger and smaller, but also how the effort with lr1 is significantly less than with lr2. And also that the learning rate here works completely differently from what we know from neural networks. 
 
 At the beginning I talked about a fake softmax, because depending on the scaling of the weights, the softmax pseudoprobability is influenced by the learning rate. And thus stronger or weaker. However, the result itself remains the same with any scaling. No matter how big or small you have trained the weights, as long as the smallest and biggest weights are not swallowed by the scaling.
-
 
